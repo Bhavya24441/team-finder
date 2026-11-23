@@ -36,3 +36,25 @@ Prerequisites: Node.js LTS, MongoDB Atlas, and Visual Studio Code with the Live 
 - `server/` — Express API, MongoDB models, session authentication, and routes.
 - `docs/project-report.md` — project report and captured page screenshots.
 - `docs/team-finder-full-code-guide-updated.pdf` — updated member-by-member full-code guide.
+
+## Demo accounts
+
+Seed four fictional student profiles and three open team requests for skill search, applications, and invitations:
+
+```powershell
+cd server
+npm run seed:demo
+```
+
+All four demo accounts use the password `TeamFinderDemo2026!`:
+
+The seed also posts three open requests: **Campus Event Planner** (Alex), **Study Buddy Match App** (Jordan), and **Campus Sustainability Dashboard** (Priya). Each demo account starts with at least one pending invitation; Noah has two. Sign in as any listed demo account and open Team requests to show its inbox.
+
+| Name | Login email | Sample skills |
+| --- | --- | --- |
+| Alex Rivera | `demo.alex@example.com` | JavaScript, Node.js, MongoDB, React |
+| Jordan Kim | `demo.jordan@example.com` | UI/UX, Figma, HTML, CSS, JavaScript |
+| Priya Shah | `demo.priya@example.com` | Python, Machine Learning, Data Analysis, MongoDB |
+| Noah Williams | `demo.noah@example.com` | React, Node.js, CSS, API Design |
+
+The seed command is safe to rerun: it updates only these four reserved demo email addresses, creates or refreshes the three named demo requests, and adds pending invitations so every demo account has at least one inbox item. It leaves other users and requests untouched. Sign in as Noah to show the invitations under Team requests. These shared credentials are for a local classroom demo only.
