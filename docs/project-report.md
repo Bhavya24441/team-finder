@@ -1,53 +1,58 @@
-# Team Finder — Project Report
+# Campus Skill-Based Project Team Finder
 
-## Project overview
+## Problem statement
 
-Team Finder helps students find teammates with complementary skills. Members can register, maintain a profile with skills and interests, search for matching members, publish a project request, apply to a request, and let the request owner accept or reject applicants. A trends page summarizes skill demand from project requests.
+Students often need teammates with the right skills for a project, but do not have a simple way to find and organize them. Team Finder provides a shared place to describe skills, find matching students, and manage project team applications.
 
-## Technology used
+## Objectives
+
+- Let students create accounts and maintain a profile of their skills, interests, availability, and bio.
+- Match students to peers using requested skills.
+- Let students post team requests and manage applications.
+- Show which skills are most requested in project postings.
+
+## Team members and contributions
+
+SAP IDs were not included with the names provided, so they are marked as not provided.
+
+- **Bhavya** — SAP ID: Not provided — **Member A, Backend Lead (server, login, sessions).** Implemented the Express server setup, MongoDB connection, authentication routes, password hashing, and session authentication. Added server validation and error handling for the API.
+- **Tanveer** — SAP ID: Not provided — **Member B, Database and Matching Logic Lead.** Implemented the user, team request, and team data models, plus profile and skill-search routes. Added skill normalization and matching scores for search results.
+- **Ashish** — SAP ID: Not provided — **Member C, Frontend Core Lead (app setup, login, signup, profile).** Built the AngularJS app shell and routing, authentication screens, profile editor, and reusable skill-chip input. Connected these screens to the authenticated API.
+- **Pratishtha** — SAP ID: Not provided — **Member D (search, requests, charts, testing, report).** Built the search, team-request, and trends pages, including the D3.js skill-demand chart. Verified the end-to-end request flow and prepared the report screenshots.
+
+## Technology stack
 
 - Frontend: AngularJS, HTML, CSS, and D3.js.
 - Backend: Node.js and Express.
-- Database: MongoDB with Mongoose.
-- Authentication: password hashing and session cookies stored in MongoDB.
+- Database: MongoDB Atlas with Mongoose.
+- Authentication: bcryptjs password hashing and session cookies stored in MongoDB.
 
-## Application structure
+## Features
 
-```text
-client/                         AngularJS frontend
-  controllers/                  Login, profile, search, request, and trends flows
-  directives/                   Skill chip display
-  views/                        Login, signup, profile, search, requests, and trends
-server/                         Express API
-  middleware/                   Session authentication
-  models/                       User, team request, and team schemas
-  routes/                       Auth, user, request, and stats endpoints
-docs/screenshots/               Captured application pages
+- Account signup, login, and logout.
+- Editable student profiles with skills, interests, availability, and bio.
+- Skill search with match percentages.
+- Team request creation, application, and owner accept/reject actions.
+- Team membership creation when an applicant is accepted.
+- Skill-demand chart based on project requests.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    M["Team members"] --> UI["AngularJS client<br/>Live Server"]
+    UI -->|HTTP API and session cookie| API["Express API<br/>auth, users, requests, stats"]
+    API --> DB[("MongoDB Atlas<br/>users, requests, teams, sessions")]
+    DB --> API
+    API --> UI
 ```
 
-## Main user flow
+## Database schema
 
-1. Register and log in.
-2. Add a profile bio, skills, and interests.
-3. Search members by skill and review match results.
-4. Create a project request with required skills.
-5. Other members apply; the owner accepts or rejects applications.
-6. View skill demand on the trends page.
-
-## Data models
-
-- **User:** name, email, hashed password, bio, skills, interests, and timestamps.
-- **TeamRequest:** creator, project title and description, required skills, application status, and timestamps.
-- **Team:** request, leader, and accepted members.
-
-## Team contributions
-
-Replace the placeholders with the team's names before submission.
-
-- Member A — [Name]: backend and database.
-- Member B — [Name]: frontend pages and styling.
-- Member C — [Name]: integration, verification, and report.
-- Member D — [Name]: [contribution].
+- **User:** name, email, hashed password, SAP ID, bio, skills, interests, availability, and creation date.
+- **TeamRequest:** project title, description, required skills, creator, open/closed status, applications and their statuses, and creation date.
+- **Team:** name, project title, originating request, leader, accepted members, and creation date.
+- **Session:** login session data stored in MongoDB for authenticated API requests.
 
 ## Verification performed
 
@@ -55,7 +60,6 @@ Replace the placeholders with the team's names before submission.
 - Confirmed skill search returns matching profiles and the trends page displays request skill counts.
 - Confirmed request creation, application, owner acceptance/rejection, and stored team membership.
 - Confirmed invalid input, duplicate accounts/applications, unauthorized access, and non-owner responses are rejected.
-- Captured the following pages from the running application.
 
 ## Screenshots
 
@@ -82,3 +86,7 @@ Replace the placeholders with the team's names before submission.
 ### Skill trends
 
 ![Skill trends page](screenshots/trends.jpg)
+
+## Conclusion
+
+Team Finder connects student skills with project needs through profiles, skill matching, team requests, and application management. The integrated application and its main user flows were verified against the project guide.
