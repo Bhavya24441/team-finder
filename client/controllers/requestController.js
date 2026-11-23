@@ -2,6 +2,8 @@ app.controller('RequestController', function ($scope, $http, ToastService, API_U
   $scope.newRequest = { requiredSkills: [] };
   $scope.openRequests = [];
   $scope.myRequests = [];
+  $scope.myInvitations = [];
+  $scope.activeApplicant = null;
   $scope.loading = true;
   $scope.saving = false;
   $scope.errorMessage = '';
@@ -25,8 +27,16 @@ app.controller('RequestController', function ($scope, $http, ToastService, API_U
     });
   }
 
+  function loadMyInvitations() {
+    return $http.get(API_URL + '/requests/invitations').then(function (response) {
+      $scope.myInvitations = response.data;
+    }).catch(function (error) {
+      $scope.errorMessage = error.data && error.data.message ? error.data.message : 'Could not load your invitations.';
+    });
+  }
+
   $scope.refresh = function () {
-    return Promise.all([loadRequests(), loadMyRequests()]);
+    return Promise.all([loadRequests(), loadMyRequests(), loadMyInvitations()]);
   };
   $scope.refresh();
 
@@ -73,5 +83,28 @@ app.controller('RequestController', function ($scope, $http, ToastService, API_U
     }).finally(function () {
       applicant.responding = false;
     });
+  };
+
+  $scope.viewApplicantProfile = function (application) {
+    if (application.userId) $scope.activeApplicant = application.userId;
+  };
+
+  $scope.closeApplicantProfile = function () {
+    $scope.activeApplicant = null;
+  };
+
+  $scope.respondToInvitation = function (invitation, action) {
+    if (invitation.responding || invitation.status !== 'pending') return;
+    invitation.responding = true;
+    $http.put(API_URL + '/requests/' + invitation.requestId + '/invitations/respond', { action: action })
+      .then(function (response) {
+        ToastService.show(response.data.message || 'Invitation updated.');
+        invitation.status = action === 'accept' ? 'accepted' : 'rejected';
+        return $scope.refresh();
+      }).catch(function (error) {
+        ToastService.show(error.data && error.data.message ? error.data.message : 'Could not update this invitation.', 'error');
+      }).finally(function () {
+        invitation.responding = false;
+      });
   };
 });

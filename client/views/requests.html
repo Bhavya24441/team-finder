@@ -42,11 +42,35 @@
       <div class="request-action">
         <span class="muted" ng-if="request.isOwner">You posted this request.</span>
         <span class="muted" ng-if="!request.isOwner && request.hasApplied">You have applied.</span>
-        <button class="button button-primary button-small" ng-if="!request.isOwner && !request.hasApplied" ng-click="apply(request)" ng-disabled="request.applying">{{request.applying ? 'Applying…' : 'Apply to join'}}</button>
+        <span class="muted" ng-if="!request.isOwner && request.hasInvitation">You have an invitation to this team below.</span>
+        <button class="button button-primary button-small" ng-if="!request.isOwner && !request.hasApplied && !request.hasInvitation" ng-click="apply(request)" ng-disabled="request.applying">{{request.applying ? 'Applying…' : 'Apply to join'}}</button>
       </div>
     </article>
   </section>
 </div>
+
+<section class="my-requests-section">
+  <div class="section-title"><div><p class="eyebrow">Join a project</p><h2>Invitations to you</h2></div></div>
+  <div class="empty-state panel" ng-if="!myInvitations.length">
+    <p>No one has invited you to a team yet.</p>
+  </div>
+  <article class="panel invitation-card" ng-repeat="invitation in myInvitations track by invitation.requestId">
+    <div class="request-card-top">
+      <div>
+        <p class="eyebrow">Invitation from {{invitation.leader.name}}</p>
+        <h3>{{invitation.projectTitle}}</h3>
+        <p class="muted">{{invitation.description || 'The project owner invited you to join this team.'}}</p>
+      </div>
+      <span class="status-pill" ng-class="'status-' + invitation.status">{{invitation.status}}</span>
+    </div>
+    <div class="tag-list"><span class="tag" ng-repeat="skill in invitation.requiredSkills track by $index">{{skill}}</span></div>
+    <div class="applicant-actions" ng-if="invitation.status === 'pending' && invitation.requestStatus === 'open'">
+      <button class="button button-primary button-small" type="button" ng-click="respondToInvitation(invitation, 'accept')" ng-disabled="invitation.responding">Accept invitation</button>
+      <button class="button button-quiet button-small" type="button" ng-click="respondToInvitation(invitation, 'reject')" ng-disabled="invitation.responding">Decline</button>
+    </div>
+    <p class="muted" ng-if="invitation.status === 'pending' && invitation.requestStatus !== 'open'">This project is closed, so the invitation can no longer be accepted.</p>
+  </article>
+</section>
 
 <section class="my-requests-section">
   <div class="section-title"><div><p class="eyebrow">Your projects</p><h2>Applications to your requests</h2></div></div>
@@ -65,11 +89,36 @@
       </div>
       <div class="applicant-info" ng-if="!application.userId"><strong>Student account unavailable</strong></div>
       <span class="status-pill" ng-if="application.status !== 'pending'" ng-class="'status-' + application.status">{{application.status}}</span>
+      <div class="applicant-actions" ng-if="application.userId">
+        <button class="button button-quiet button-small" type="button" ng-click="viewApplicantProfile(application)">View profile</button>
+      </div>
       <div class="applicant-actions" ng-if="application.status === 'pending'">
         <button class="button button-primary button-small" ng-click="respond(request, application, 'accept')" ng-disabled="application.responding">Accept</button>
         <button class="button button-quiet button-small" ng-click="respond(request, application, 'reject')" ng-disabled="application.responding">Reject</button>
       </div>
     </div>
     <p class="muted" ng-if="!request.applicants.length">No students have applied yet.</p>
+    <div class="invitation-status-list" ng-if="request.invitations.length">
+      <h4>Invitations sent</h4>
+      <div class="invitation-status-row" ng-repeat="invitation in request.invitations track by $index">
+        <span>{{invitation.userId.name || 'Student'}}</span>
+        <span class="status-pill" ng-class="'status-' + invitation.status">{{invitation.status}}</span>
+      </div>
+    </div>
   </article>
 </section>
+
+<div class="modal-backdrop" ng-if="activeApplicant" ng-click="closeApplicantProfile()">
+  <section class="profile-dialog panel" role="dialog" aria-modal="true" aria-labelledby="applicant-profile-title" ng-click="$event.stopPropagation()">
+    <button class="profile-dialog-close" type="button" aria-label="Close profile" ng-click="closeApplicantProfile()">×</button>
+    <div class="avatar">{{activeApplicant.name.charAt(0) | uppercase}}</div>
+    <p class="eyebrow">Applicant profile</p>
+    <h2 id="applicant-profile-title">{{activeApplicant.name}}</h2>
+    <p class="muted">{{activeApplicant.availability || 'Availability not set'}}</p>
+    <p class="profile-dialog-bio">{{activeApplicant.bio || 'No bio added yet.'}}</p>
+    <h3>Skills</h3>
+    <div class="tag-list"><span class="tag" ng-repeat="skill in activeApplicant.skills track by $index">{{skill}}</span><span class="muted" ng-if="!activeApplicant.skills.length">No skills listed</span></div>
+    <h3>Interests</h3>
+    <div class="tag-list"><span class="tag" ng-repeat="interest in activeApplicant.interests track by $index">{{interest}}</span><span class="muted" ng-if="!activeApplicant.interests.length">No interests listed</span></div>
+  </section>
+</div>

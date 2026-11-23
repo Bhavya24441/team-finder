@@ -1,6 +1,6 @@
 # Team Finder
 
-A skill-based team finder for student projects. The app lets members create profiles, find people by skills, post project team requests, apply to requests, review applications, and view skill demand.
+A skill-based team finder for student projects. The app lets members create profiles, find people by skills, invite matches to an open team, apply to requests, review applicant profiles, accept or reject applications, and view skill demand.
 
 ## Run locally
 
@@ -24,8 +24,15 @@ Prerequisites: Node.js LTS, MongoDB Atlas, and Visual Studio Code with the Live 
    The API listens on `http://localhost:5000`.
 5. Open the repository's `client` folder in VS Code and choose **Go Live**. The provided local origin is `http://127.0.0.1:5500`.
 
+## Team workflow
+
+- On **Find teammates**, search by skills, choose one of your open projects, and send a direct invitation to a match.
+- On **Team requests**, invited students can accept or decline. Students can also apply to open requests.
+- Request owners can open an applicant's profile, then accept or reject the application. Accepting either an invitation or an application adds the student to the team.
+
 ## Project files
 
 - `client/` — AngularJS pages, controllers, styles, and skill chip directive.
 - `server/` — Express API, MongoDB models, session authentication, and routes.
 - `docs/project-report.md` — project report and captured page screenshots.
+- `docs/team-finder-full-code-guide-updated.pdf` — updated member-by-member full-code guide.

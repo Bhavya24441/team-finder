@@ -36,6 +36,23 @@
       <p class="student-bio" ng-if="student.bio">{{student.bio}}</p>
       <p class="student-bio muted" ng-if="!student.bio">This student has not added a bio yet.</p>
       <div class="tag-list"><span class="tag" ng-repeat="skill in student.skills track by $index">{{skill}}</span></div>
+      <div class="student-invite">
+        <button class="button button-primary button-small" type="button" ng-if="!myRequestsLoading && myOpenRequests.length" ng-click="toggleInviteOptions(student)">
+          {{student.showInviteOptions ? 'Close team invites' : 'Invite to your team'}}
+        </button>
+        <a class="button button-quiet button-small" ng-if="!myRequestsLoading && !myOpenRequests.length" href="#!/requests">Post a team request to invite</a>
+        <div class="invite-options" ng-if="student.showInviteOptions">
+          <p class="field-hint">Choose the project you want {{student.name}} to join.</p>
+          <div class="invite-option" ng-repeat="request in myOpenRequests track by request._id">
+            <span>{{request.projectTitle}}</span>
+            <span class="status-pill" ng-if="hasInvited(student, request)">{{invitationStatus(student, request) === 'pending' ? 'Invitation sent' : 'Invitation ' + invitationStatus(student, request)}}</span>
+            <span class="status-pill" ng-if="!hasInvited(student, request) && hasApplied(student, request)">Already applied</span>
+            <button class="button button-quiet button-small" type="button" ng-if="!hasInvited(student, request) && !hasApplied(student, request)" ng-click="inviteToRequest(student, request)" ng-disabled="student.invitingToRequestId">
+              {{student.invitingToRequestId === request._id ? 'Sending…' : 'Send invite'}}
+            </button>
+          </div>
+        </div>
+      </div>
     </article>
   </div>
 </section>

@@ -122,6 +122,10 @@ label { display: block; margin: 18px 0 7px; font-size: 13px; font-weight: 700; }
 .student-card-head .muted { margin: 0; font-size: 11px; }
 .match-badge { flex: 0 0 auto; margin-left: auto; padding: 6px 9px; border-radius: 8px; background: #eaf6f1; color: #238168; font-size: 11px; font-weight: 700; }
 .student-bio { margin: 17px 0 13px; color: #59647b; font-size: 12px; }
+.student-invite { margin-top: 18px; }
+.invite-options { display: grid; gap: 9px; margin-top: 13px; padding: 13px; border: 1px solid var(--line); border-radius: 11px; background: #fafbfe; }
+.invite-options .field-hint { margin: 0; }
+.invite-option { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 9px; border-top: 1px solid var(--line); font-size: 12px; font-weight: 600; }
 .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
 .tag { display: inline-flex; padding: 5px 9px; border: 1px solid #e3e7f0; border-radius: 99px; color: #556078; font-size: 10px; font-weight: 600; }
 .tag-light { background: #fafbfe; }
@@ -152,6 +156,19 @@ label { display: block; margin: 18px 0 7px; font-size: 13px; font-weight: 700; }
 .applicant-info > .muted { font-size: 11px; }
 .applicant-info .tag-list { margin-top: 6px; }
 .applicant-actions { display: flex; gap: 7px; }
+.invitation-card { padding: 20px; margin-bottom: 13px; }
+.invitation-card .applicant-actions { margin-top: 16px; }
+.invitation-status-list { display: grid; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.invitation-status-list h4 { margin: 0; font: 700 12px 'Manrope', sans-serif; }
+.invitation-status-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 12px; }
+.modal-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 22px; background: rgba(18, 29, 51, .48); }
+.profile-dialog { position: relative; width: min(510px, 100%); max-height: min(85vh, 720px); overflow-y: auto; padding: 30px; }
+.profile-dialog .avatar { margin: 0 0 16px; }
+.profile-dialog .eyebrow { margin-bottom: 7px; }
+.profile-dialog h2 { margin-bottom: 5px; }
+.profile-dialog h3 { margin: 22px 0 8px; font-size: 14px; }
+.profile-dialog-bio { margin: 18px 0 0; color: #59647b; font-size: 13px; }
+.profile-dialog-close { position: absolute; top: 13px; right: 15px; width: 34px; height: 34px; border: 0; border-radius: 9px; background: #f1f3f8; color: var(--ink); cursor: pointer; font-size: 23px; line-height: 1; }
 .trends-panel { padding: 26px; }
 .trend-note { color: var(--muted); font-size: 11px; }
 #chart { width: 100%; overflow: hidden; }
@@ -197,6 +214,8 @@ label { display: block; margin: 18px 0 7px; font-size: 13px; font-weight: 700; }
   .applicant-row { align-items: flex-start; flex-wrap: wrap; gap: 12px; }
   .applicant-info { flex-basis: calc(100% - 12px); }
   .applicant-actions { margin-left: auto; }
+  .invite-option { align-items: flex-start; flex-wrap: wrap; }
+  .profile-dialog { padding: 25px 21px; }
   .form-actions { align-items: flex-start; flex-direction: column; }
   .request-card { padding: 16px; }
   .page-heading { margin-bottom: 25px; }
