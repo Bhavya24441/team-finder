@@ -1,0 +1,75 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">Build a team</p>
+    <h1>Ideas are better together.</h1>
+    <p class="lead">Post a project that needs teammates, or apply to an opportunity that fits your skills.</p>
+  </div>
+</section>
+
+<div class="request-layout">
+  <section class="panel request-compose">
+    <div class="section-title"><div><p class="eyebrow">Start a project</p><h2>Post a team request</h2></div></div>
+    <form name="requestForm" ng-submit="postRequest()" novalidate>
+      <label for="project-title">Project title</label>
+      <input id="project-title" name="projectTitle" type="text" ng-model="newRequest.projectTitle" maxlength="120" placeholder="e.g. Campus event planner" required>
+      <label for="project-description">Description</label>
+      <textarea id="project-description" name="description" ng-model="newRequest.description" rows="4" maxlength="2000" placeholder="What are you building, and who would you like to join?"></textarea>
+      <label>Required skills</label>
+      <skill-chip items="newRequest.requiredSkills"></skill-chip>
+      <p class="field-hint">Add the skills you hope a teammate can bring.</p>
+      <p class="form-error" ng-if="errorMessage" role="alert">{{errorMessage}}</p>
+      <button class="button button-primary" type="submit" ng-disabled="saving || requestForm.$invalid">{{saving ? 'Posting…' : 'Post request'}}</button>
+    </form>
+  </section>
+
+  <section class="request-feed">
+    <div class="section-title">
+      <div><p class="eyebrow">Open opportunities</p><h2>Team requests</h2></div>
+      <button class="button button-quiet button-small" type="button" ng-click="refresh()">Refresh</button>
+    </div>
+    <p class="muted" ng-if="loading">Loading requests…</p>
+    <div class="empty-state panel" ng-if="!loading && !openRequests.length">
+      <h3>No open requests yet</h3>
+      <p>Start a project request and invite the campus community to join.</p>
+    </div>
+    <article class="panel request-card" ng-repeat="request in openRequests track by request._id">
+      <div class="request-card-top">
+        <div><h3>{{request.projectTitle}}</h3><p class="muted">Posted by {{request.createdBy.name}} · {{request.applicationCount}} applicants</p></div>
+        <span class="status-pill">Open</span>
+      </div>
+      <p class="request-description">{{request.description || 'The project creator has not added a description yet.'}}</p>
+      <div class="tag-list"><span class="tag" ng-repeat="skill in request.requiredSkills track by $index">{{skill}}</span><span class="muted" ng-if="!request.requiredSkills.length">No required skills listed</span></div>
+      <div class="request-action">
+        <span class="muted" ng-if="request.isOwner">You posted this request.</span>
+        <span class="muted" ng-if="!request.isOwner && request.hasApplied">You have applied.</span>
+        <button class="button button-primary button-small" ng-if="!request.isOwner && !request.hasApplied" ng-click="apply(request)" ng-disabled="request.applying">{{request.applying ? 'Applying…' : 'Apply to join'}}</button>
+      </div>
+    </article>
+  </section>
+</div>
+
+<section class="my-requests-section">
+  <div class="section-title"><div><p class="eyebrow">Your projects</p><h2>Applications to your requests</h2></div></div>
+  <div class="empty-state panel" ng-if="!myRequests.length">
+    <p>You have not posted a team request yet.</p>
+  </div>
+  <article class="panel owner-request" ng-repeat="request in myRequests track by request._id">
+    <div class="request-card-top">
+      <div><h3>{{request.projectTitle}}</h3><p class="muted">{{request.applicants.length}} applications · {{request.status}}</p></div>
+    </div>
+    <div class="applicant-row" ng-repeat="application in request.applicants track by $index">
+      <div class="applicant-info" ng-if="application.userId">
+        <strong>{{application.userId.name}}</strong>
+        <span class="muted">{{application.userId.availability || 'Availability not set'}}</span>
+        <div class="tag-list"><span class="tag tag-light" ng-repeat="skill in application.userId.skills track by $index">{{skill}}</span></div>
+      </div>
+      <div class="applicant-info" ng-if="!application.userId"><strong>Student account unavailable</strong></div>
+      <span class="status-pill" ng-if="application.status !== 'pending'" ng-class="'status-' + application.status">{{application.status}}</span>
+      <div class="applicant-actions" ng-if="application.status === 'pending'">
+        <button class="button button-primary button-small" ng-click="respond(request, application, 'accept')" ng-disabled="application.responding">Accept</button>
+        <button class="button button-quiet button-small" ng-click="respond(request, application, 'reject')" ng-disabled="application.responding">Reject</button>
+      </div>
+    </div>
+    <p class="muted" ng-if="!request.applicants.length">No students have applied yet.</p>
+  </article>
+</section>

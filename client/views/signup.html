@@ -1,0 +1,27 @@
+<section class="auth-layout">
+  <div class="auth-intro">
+    <p class="eyebrow">Your next team is here</p>
+    <h1>Bring your skills to a project that matters.</h1>
+    <p class="lead">Create a profile, discover collaborators, and turn campus ideas into real projects.</p>
+    <div class="intro-note"><span class="intro-dot"></span>A stronger team begins with you</div>
+  </div>
+  <div class="panel auth-panel">
+    <p class="eyebrow">Get started</p>
+    <h2>Create your account</h2>
+    <p class="muted">Set up your student profile in a few steps.</p>
+    <form name="signupForm" ng-submit="signup()" novalidate>
+      <label for="signup-name">Full name</label>
+      <input id="signup-name" name="name" type="text" ng-model="signupData.name" autocomplete="name" maxlength="100" required>
+      <label for="signup-sap">SAP ID <span class="optional">(optional)</span></label>
+      <input id="signup-sap" name="sapId" type="text" ng-model="signupData.sapId" maxlength="40">
+      <label for="signup-email">Email address</label>
+      <input id="signup-email" name="email" type="email" ng-model="signupData.email" autocomplete="email" required>
+      <label for="signup-password">Password</label>
+      <input id="signup-password" name="password" type="password" ng-model="signupData.password" autocomplete="new-password" minlength="8" maxlength="128" required>
+      <small class="field-hint">Use at least 8 characters.</small>
+      <p class="form-error" ng-if="errorMessage" role="alert">{{errorMessage}}</p>
+      <button class="button button-primary button-full" type="submit" ng-disabled="signupForm.$invalid || busy">{{busy ? 'Creating account…' : 'Create account'}}</button>
+    </form>
+    <p class="auth-switch">Already have an account? <a href="#!/login">Log in</a></p>
+  </div>
+</section>

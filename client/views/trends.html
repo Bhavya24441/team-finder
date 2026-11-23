@@ -1,0 +1,24 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">Campus project data</p>
+    <h1>Skills in demand.</h1>
+    <p class="lead">See which skills students are requesting most across team projects.</p>
+  </div>
+</section>
+<section class="panel trends-panel">
+  <div class="section-title">
+    <div><p class="eyebrow">Team request analytics</p><h2>Most requested skills</h2></div>
+    <span class="trend-note">Based on project requests</span>
+  </div>
+  <p class="muted" ng-if="loading">Loading skill trends…</p>
+  <p class="form-error" ng-if="errorMessage" role="alert">{{errorMessage}}</p>
+  <div class="empty-state" ng-if="!loading && !errorMessage && !skills.length">
+    <span class="empty-icon">↗</span>
+    <h3>No skill data yet</h3>
+    <p>Once students add project requests with required skills, the chart will appear here.</p>
+  </div>
+  <div id="chart" ng-if="!loading && skills.length"></div>
+  <div class="trend-list" ng-if="!loading && skills.length">
+    <div class="trend-row" ng-repeat="item in skills track by item.skill"><span>{{item.skill}}</span><strong>{{item.count}} requests</strong></div>
+  </div>
+</section>

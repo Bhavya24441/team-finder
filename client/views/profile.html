@@ -1,0 +1,47 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">Your campus profile</p>
+    <h1>Make it easy to find you.</h1>
+    <p class="lead">Tell other students what you can bring to a project and when you are available.</p>
+  </div>
+</section>
+<section class="profile-grid">
+  <aside class="panel profile-summary">
+    <div class="avatar">{{profile.name.charAt(0) | uppercase}}</div>
+    <h2>{{profile.name}}</h2>
+    <p class="muted">{{profile.email}}</p>
+    <p class="profile-meta" ng-if="profile.sapId">SAP ID · {{profile.sapId}}</p>
+    <div class="profile-callout">Profiles with skills and interests help teammates find the right match.</div>
+  </aside>
+  <form class="panel profile-form" name="profileForm" ng-submit="saveProfile()" novalidate>
+    <div class="section-title">
+      <div><h2>About you</h2><p class="muted">A few details help others understand how you work.</p></div>
+    </div>
+    <label for="bio">Short bio</label>
+    <textarea id="bio" name="bio" ng-model="profile.bio" rows="4" maxlength="500" placeholder="What are you interested in building?"></textarea>
+    <div class="field-meta">{{(profile.bio || '').length}} / 500 characters</div>
+
+    <label for="availability">Availability</label>
+    <select id="availability" name="availability" ng-model="profile.availability">
+      <option value="Not specified">Choose your availability</option>
+      <option value="Weekends">Weekends</option>
+      <option value="Evenings">Evenings</option>
+      <option value="Full-time">Full-time</option>
+      <option value="Flexible">Flexible</option>
+    </select>
+
+    <label>Your skills</label>
+    <skill-chip items="profile.skills"></skill-chip>
+    <p class="field-hint">Add one skill at a time. Press Enter to add it.</p>
+
+    <label>Your interests</label>
+    <skill-chip items="profile.interests"></skill-chip>
+    <p class="field-hint">Interests help students find shared project goals.</p>
+
+    <p class="form-error" ng-if="errorMessage" role="alert">{{errorMessage}}</p>
+    <div class="form-actions">
+      <button class="button button-primary" type="submit" ng-disabled="busy || profileForm.$invalid">{{busy ? 'Saving…' : 'Save profile'}}</button>
+      <span class="muted">Your profile is saved to your account.</span>
+    </div>
+  </form>
+</section>

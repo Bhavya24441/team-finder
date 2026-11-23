@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" ng-app="teamFinderApp">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Team Finder | Campus Project Teams</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-controller="NavController">
+  <header class="site-header">
+    <a class="brand" href="#!/search" aria-label="Team Finder home">
+      <span class="brand-mark">TF</span>
+      <span>Team Finder<small>Campus collaboration</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a ng-if="currentUser" href="#!/search" ng-class="{active: currentPath === '/search'}">Find teammates</a>
+      <a ng-if="currentUser" href="#!/requests" ng-class="{active: currentPath === '/requests'}">Team requests</a>
+      <a ng-if="currentUser" href="#!/trends" ng-class="{active: currentPath === '/trends'}">Skill trends</a>
+      <a ng-if="currentUser" href="#!/profile" ng-class="{active: currentPath === '/profile'}">My profile</a>
+    </nav>
+    <div class="header-actions">
+      <span class="signed-in" ng-if="currentUser">Hi, {{currentUser.name}}</span>
+      <button class="button button-quiet button-small" ng-if="currentUser" ng-click="logout()">Log out</button>
+      <a class="button button-quiet button-small" ng-if="!currentUser && currentPath !== '/login'" href="#!/login">Log in</a>
+      <a class="button button-primary button-small" ng-if="!currentUser && currentPath !== '/signup'" href="#!/signup">Create account</a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <div class="toast" ng-if="toast.message" ng-class="'toast-' + toast.type" role="status" aria-live="polite">{{toast.message}}</div>
+    <div ng-view></div>
+  </main>
+
+  <footer class="site-footer">Built for students who make things together.</footer>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-route.min.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="app.js"></script>
+  <script src="controllers/authController.js"></script>
+  <script src="controllers/profileController.js"></script>
+  <script src="controllers/searchController.js"></script>
+  <script src="controllers/requestController.js"></script>
+  <script src="controllers/trendsController.js"></script>
+  <script src="directives/skillChip.js"></script>
+</body>
+</html>

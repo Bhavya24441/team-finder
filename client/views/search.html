@@ -1,0 +1,46 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">Search campus skills</p>
+    <h1>Find your next teammate.</h1>
+    <p class="lead">Search by the skills your project needs and see students with the closest match.</p>
+  </div>
+</section>
+<section class="panel search-panel">
+  <form class="search-form" ng-submit="doSearch()">
+    <div class="search-field">
+      <label for="skills-search">Skills you are looking for</label>
+      <input id="skills-search" type="text" ng-model="skillsInput" placeholder="e.g. Python, machine learning, design">
+      <small class="field-hint">Separate skills with commas.</small>
+    </div>
+    <button class="button button-primary" type="submit" ng-disabled="loading">{{loading ? 'Searching…' : 'Find teammates'}}</button>
+  </form>
+</section>
+
+<p class="form-error" ng-if="errorMessage" role="alert">{{errorMessage}}</p>
+<section class="results-section" ng-if="searched">
+  <div class="section-title">
+    <div><p class="eyebrow">Your matches</p><h2>{{results.length}} students found</h2></div>
+  </div>
+  <div class="empty-state panel" ng-if="!results.length">
+    <span class="empty-icon">⌕</span>
+    <h3>No matching students yet</h3>
+    <p>Try a different skill or a broader search. New skills can also be added to your profile.</p>
+  </div>
+  <div class="student-grid" ng-if="results.length">
+    <article class="panel student-card" ng-repeat="student in results track by student._id">
+      <div class="student-card-head">
+        <div class="avatar avatar-small">{{student.name.charAt(0) | uppercase}}</div>
+        <div><h3>{{student.name}}</h3><p class="muted">{{student.availability || 'Availability not set'}}</p></div>
+        <span class="match-badge">{{student.matchPercent}}% match</span>
+      </div>
+      <p class="student-bio" ng-if="student.bio">{{student.bio}}</p>
+      <p class="student-bio muted" ng-if="!student.bio">This student has not added a bio yet.</p>
+      <div class="tag-list"><span class="tag" ng-repeat="skill in student.skills track by $index">{{skill}}</span></div>
+    </article>
+  </div>
+</section>
+<section class="empty-state panel first-search" ng-if="!searched">
+  <span class="empty-icon">✳</span>
+  <h3>Start with a skill</h3>
+  <p>Enter the skills your project needs to see matching students.</p>
+</section>

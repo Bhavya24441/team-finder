@@ -1,0 +1,22 @@
+<section class="auth-layout">
+  <div class="auth-intro">
+    <p class="eyebrow">Find your people</p>
+    <h1>Good projects start with a good team.</h1>
+    <p class="lead">Find students who bring the skills, interests, and time your next idea needs.</p>
+    <div class="intro-note"><span class="intro-dot"></span>Made for campus collaboration</div>
+  </div>
+  <div class="panel auth-panel">
+    <p class="eyebrow">Welcome back</p>
+    <h2>Log in to Team Finder</h2>
+    <p class="muted">Continue building something meaningful with your campus community.</p>
+    <form name="loginForm" ng-submit="login()" novalidate>
+      <label for="login-email">Email address</label>
+      <input id="login-email" name="email" type="email" ng-model="loginData.email" autocomplete="email" required>
+      <label for="login-password">Password</label>
+      <input id="login-password" name="password" type="password" ng-model="loginData.password" autocomplete="current-password" required>
+      <p class="form-error" ng-if="errorMessage" role="alert">{{errorMessage}}</p>
+      <button class="button button-primary button-full" type="submit" ng-disabled="loginForm.$invalid || busy">{{busy ? 'Logging in…' : 'Log in'}}</button>
+    </form>
+    <p class="auth-switch">New to Team Finder? <a href="#!/signup">Create an account</a></p>
+  </div>
+</section>
